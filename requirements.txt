@@ -3,3 +3,6 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
+azure-cosmos>=4.5.0
+PyYAML>=6.0
+requests>=2.31.0
