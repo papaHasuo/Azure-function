@@ -1,0 +1,201 @@
+### Azure Functions 日報フィードバックAPI テスト
+### REST Client用テストファイル
+
+# 変数設定
+# ローカル開発用
+@baseUrl = http://localhost:7071
+
+@functionName = daily_report_feedback
+
+### 1. 基本的な日報フィードバック取得テスト
+POST {{baseUrl}}/api/{{functionName}}
+Content-Type: application/json
+
+{
+  "metadata": {
+    "submitterEmail": "tanaka.hiroshi@example.com",
+    "timestamp": "2025-01-15T18:30:00Z",
+    "source": "daily_report_form"
+  },
+  "data": {
+    "submissionDate": "2025-01-15",
+    "good_things": [
+      "新機能のAPI設計を完了し、チームレビューで高評価を得た",
+      "バグ修正で3件のクリティカルな問題を解決",
+      "チームメンバーへのコードレビューを積極的に実施"
+    ],
+    "reflections": [
+      "テスト工程で予想以上に時間がかかってしまった",
+      "ドキュメント作成が後回しになりがち",
+      "午後の集中力低下で作業効率が落ちた"
+    ]
+  }
+}
+
+###
+
+### 2. シンプルな日報テスト
+POST {{baseUrl}}/api/{{functionName}}
+Content-Type: application/json
+
+{
+  "metadata": {
+    "submitterEmail": "yamada.akiko@example.com",
+    "timestamp": "2025-01-16T17:45:00Z",
+    "source": "daily_report_form"
+  },
+  "data": {
+    "submissionDate": "2025-01-16",
+    "good_things": [
+      "プレゼン資料作成完了",
+      "クライアントとの打ち合わせで好反応"
+    ],
+    "reflections": [
+      "資料作成に予想以上に時間がかかった",
+      "技術調査が不十分だった"
+    ],
+    "additional_info": {
+      "tasks_completed": [
+        "プレゼン資料作成",
+        "要件定義書レビュー"
+      ],
+      "tomorrow_plan": [
+        "技術検証の実施",
+        "プロトタイプ作成開始"
+      ],
+      "mood": "充実感あり"
+    }
+  }
+}
+
+###
+
+### 3. 詳細な日報テスト（エンジニア向け）
+POST {{baseUrl}}/api/{{functionName}}
+Content-Type: application/json
+
+{
+  "metadata": {
+    "submitterEmail": "sato.kenji@example.com",
+    "timestamp": "2025-01-17T19:15:00Z",
+    "source": "daily_report_form"
+  },
+  "data": {
+    "submissionDate": "2025-01-17",
+    "good_things": [
+      "React コンポーネントのリファクタリング完了",
+      "パフォーマンス改善で読み込み時間30%短縮",
+      "TypeScript型定義の整理で開発効率向上",
+      "新人メンバーへのメンタリング実施"
+    ],
+    "reflections": [
+      "CSS設計でBEMの適用が不十分",
+      "単体テストのカバレッジが目標の80%に届かず",
+      "Git コミットメッセージの粒度が荒い",
+      "コードレビューでの指摘対応に時間がかかった"
+    ],
+    "additional_info": {
+      "tasks_completed": [
+        "ユーザー管理画面のリファクタリング",
+        "API レスポンス最適化",
+        "Webpack設定見直し",
+        "ESLint ルール追加"
+      ],
+      "time_spent": {
+        "coding": "5時間",
+        "testing": "2時間",
+        "review": "1.5時間",
+        "mentoring": "1時間"
+      },
+      "tomorrow_plan": [
+        "テストカバレッジ向上",
+        "CSS設計ガイドライン作成",
+        "CI/CDパイプライン改善",
+        "セキュリティ監査対応"
+      ],
+      "mood": "やりがいを感じている",
+      "team_interaction": "技術的な議論が活発、知識共有が進んだ",
+      "learning": "React Hooks の新しいパターンを学習",
+      "challenges": "レガシーコードとの整合性確保が難しい"
+    }
+  }
+}
+
+###
+
+### 4. 営業職向け日報テスト
+POST {{baseUrl}}/api/{{functionName}}
+Content-Type: application/json
+
+{
+  "metadata": {
+    "submitterEmail": "suzuki.mai@example.com",
+    "timestamp": "2025-01-18T18:00:00Z",
+    "source": "daily_report_form"
+  },
+  "data": {
+    "submissionDate": "2025-01-18",
+    "good_things": [
+      "A社との契約締結に成功",
+      "B社から追加案件の相談を受けた",
+      "月間売上目標の110%達成"
+    ],
+    "reflections": [
+      "C社のフォローアップが不十分だった",
+      "提案資料の準備時間が長すぎる",
+      "競合分析が浅かった"
+    ],
+    "additional_info": {
+      "tasks_completed": [
+        "A社契約書締結",
+        "B社要件ヒアリング",
+        "月次売上レポート作成",
+        "新規リード5件獲得"
+      ],
+      "meetings": [
+        "A社最終決裁者との面談",
+        "B社技術責任者とのMTG",
+        "社内営業会議"
+      ],
+      "sales_results": {
+        "contracts_closed": 1,
+        "pipeline_value": "1500万円",
+        "new_leads": 5
+      },
+      "tomorrow_plan": [
+        "C社フォローアップ訪問",
+        "D社提案資料作成",
+        "競合分析レポート作成"
+      ],
+      "mood": "達成感があり意欲的",
+      "team_interaction": "チーム内で成功事例の共有を実施"
+    }
+  }
+}
+
+###
+
+### 5. エラーテスト（必須フィールドなし）
+POST {{baseUrl}}/api/{{functionName}}
+Content-Type: application/json
+
+{
+  "metadata": {
+    "submitterEmail": "test.user@example.com"
+  }
+}
+
+###
+
+### 6. エラーテスト（metadataなし）
+POST {{baseUrl}}/api/{{functionName}}
+Content-Type: application/json
+
+{
+  "data": {
+    "submissionDate": "2025-01-19",
+    "good_things": ["テスト実行"]
+  }
+}
+
+###
