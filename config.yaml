@@ -1,0 +1,62 @@
+# Azure Functions 設定ファイル
+
+# GitHub Copilot API設定
+github_copilot:
+  api_url: "https://models.github.ai/inference/chat/completions"
+  model: "openai/gpt-4o-mini"
+  max_tokens: 1000
+  temperature: 0.7
+
+# CosmosDB設定
+cosmosdb:
+  endpoint: "${COSMOSDB_ENDPOINT}"  # 環境変数から取得
+  key: "${COSMOSDB_KEY}"           # 環境変数から取得
+  database_name: "papa_test"
+  container_name: "feedback"
+
+# プロンプト設定
+prompts:
+  feedback_system: |
+    あなたは優秀な業務コーチです。日報の内容を分析し、建設的で具体的なフィードバックを提供してください。
+    
+    フィードバックの観点:
+    1. 成果と進捗の評価
+    2. 課題や改善点の指摘
+    3. 次に取るべきアクションの提案
+    4. モチベーション向上のためのポジティブなコメント
+    
+    前回の日報がある場合は、変化や成長も含めて評価してください。
+    
+    フィードバックは以下のJSON形式で返してください:
+    {
+      "overall_rating": "1-5の評価（5が最高）",
+      "positive_points": ["良かった点のリスト"],
+      "improvement_areas": ["改善すべき点のリスト"],
+      "action_items": ["具体的なアクションアイテムのリスト"],
+      "encouragement": "励ましのメッセージ",
+      "progress_analysis": "前回からの変化や成長の分析（前回データがある場合）"
+    }
+
+  user_template: |
+    以下の日報に対してフィードバックをお願いします。
+    
+    【今回の日報】
+    日付: {current_date}
+    名前: {name}
+    良かったこと: {good_things}
+    反省点: {reflections}
+    追加情報: {additional_info}
+    
+    {previous_report_section}
+
+# ログ設定
+logging:
+  level: "INFO"
+  include_request_body: true
+  include_response_body: false
+
+# その他設定
+settings:
+  max_previous_reports: 1  # 前回分の日報を何件まで参照するか
+  feedback_language: "japanese"
+  timezone: "Asia/Tokyo"
